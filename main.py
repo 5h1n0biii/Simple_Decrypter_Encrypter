@@ -14,8 +14,34 @@ class MyGrid(GridLayout):
     def __init__(self, **kwargs):
         #instructor call from inherited GridLayout by super() keyword
         super(MyGrid, self).__init__(**kwargs)
-        self.cols = 4
-        self.add_widget(Label(text="Word to encrypt"))
+        self.cols = 1
+
+        #setting up a grid for bottom third so that the submit button is not the complete bottom half of the app
+        self.bottom_grid = GridLayout()
+        self.bottom_grid.cols = 3
+
+        #top third
+        self.add_widget(Label(text="Text to encrypt", font_size=30))
+
+        #text input field for text to encrypt
+        self.text_to_encrypt = TextInput(multiline=False)
+        self.add_widget(self.text_to_encrypt)
+
+        #submit button in the middle of the bottom third
+        self.submit = Button(text="Submit", font_size=20)
+        self.submit.bind(on_press=self.pressed_submit)
+
+        self.bottom_grid.add_widget(Label(text=""))
+        self.bottom_grid.add_widget(self.submit)
+        self.bottom_grid.add_widget(Label(text=""))
+
+        #implement bottom_grid into main grid
+        self.add_widget(self.bottom_grid)
+
+    #read text input
+    def pressed_submit(self, instance):
+        text = self.text_to_encrypt.text
+        print("Text: ", text)
 
 #building the app
 class Encrypter_Decrypter(App):
